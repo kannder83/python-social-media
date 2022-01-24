@@ -1,15 +1,23 @@
 
 from fastapi import FastAPI
-from . import models
 from .database import engine
 from .routes import user, post, auth, vote
-from .config import settings
+from fastapi.middleware.cors import CORSMiddleware
 
-#  configuration DB
-# this is not necesary because use alembic to create tables.
-# models.Base.metadata.create_all(bind=engine)
 
 app: FastAPI = FastAPI()
+
+# Configuration CORS:
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 app.include_router(post.router)
