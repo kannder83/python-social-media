@@ -1,5 +1,5 @@
 
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 from .database import engine
 from .routes import user, post, auth, vote
 from fastapi.middleware.cors import CORSMiddleware
@@ -26,6 +26,15 @@ app.include_router(auth.router)
 app.include_router(vote.router)
 
 
-@app.get(path="/")
+@app.get(
+    path="/",
+    tags=["Test"],
+    status_code=status.HTTP_200_OK,
+    summary="Response if server is working well"
+)
 def root():
+    """
+    # Test
+    Response if server is up an working!
+    """
     return {"message": "Hello Heroku!"}

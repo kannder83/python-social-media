@@ -1,4 +1,5 @@
-from pydantic import BaseModel, EmailStr
+from doctest import Example
+from pydantic import BaseModel, EmailStr, Field
 from datetime import datetime
 from typing import Optional
 
@@ -6,9 +7,9 @@ from pydantic.types import conint
 
 
 class PostBase(BaseModel):
-    title: str
-    content: str
-    published: bool = True
+    title: str = Field(..., example="Title of Blog")
+    content: str = Field(..., example="Content of Blog")
+    published: bool = Field(example="true", default=True)
 
 
 class PostCreate(PostBase):
@@ -17,7 +18,7 @@ class PostCreate(PostBase):
 
 class UserOut(BaseModel):
     id: int
-    email: EmailStr
+    email: EmailStr = Field(..., example="example@xyz.com")
     created_at: datetime
 
     class Config:

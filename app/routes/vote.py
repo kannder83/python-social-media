@@ -11,13 +11,23 @@ router = APIRouter(
 
 @router.post(
     path="/",
-    status_code=status.HTTP_201_CREATED
+    status_code=status.HTTP_201_CREATED,
+    summary="Vote for your favorite post"
 )
 def vote(
     vote: schemas.Vote,
     db: Session = Depends(database.get_db),
     current_user: int = Depends(oauth2.get_current_user)
 ):
+    """
+    # Vote
+    Vote for a post that you like.
+    # Parameters
+    - post_id: ID of the post that you like.
+    - dir: 1 for add a like or 0 to remove a like.
+    # Return
+    - Return a post with a like or remove like.
+    """
 
     post = db.query(models.Post).filter(models.Post.id == vote.post_id).first()
     if not post:

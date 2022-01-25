@@ -7,8 +7,21 @@ from .. import database, schemas, models, utils, oauth2
 router = APIRouter(tags=["Authentication"])
 
 
-@router.post(path="/login", response_model=schemas.Token)
+@router.post(
+    path="/login",
+    response_model=schemas.Token,
+    summary="To register with a user"
+)
 def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(database.get_db)):
+    """
+    # Authentication
+    If you want to post, update or delete a post you must need to be logged in.
+    # Parameters
+    - username: email that use for register.
+    - password: password that you register.
+    # Return
+    - Return with a token "access_token" for authentication and type "token_type" as "bearer".
+    """
 
     user = db.query(models.User).filter(
         models.User.email == user_credentials.username).first()
