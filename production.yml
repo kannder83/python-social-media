@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  api:
+    container_name: prod_api
+    restart: always
+    build:
+      context: .
+      dockerfile: ./compose/production/Dockerfile
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env
+    command: gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: prod_db_postgres
+    image: postgres
+    restart: always
+    env_file:
+      - ./.env
+    volumes:
+      - postgres-db-prod:/var/lib/postgresql/data
+
+volumes:
+  postgres-db-prod:
