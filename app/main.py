@@ -1,11 +1,10 @@
 
 from fastapi import FastAPI, status
-from .database import engine
 from .routes import user, post, auth, vote
 from fastapi.middleware.cors import CORSMiddleware
 
 
-app: FastAPI = FastAPI()
+app: FastAPI = FastAPI(root_path="/api/social-media")
 
 # Configuration CORS:
 
