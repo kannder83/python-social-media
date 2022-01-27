@@ -37,4 +37,4 @@ def root():
     # Test
     Response if server is up an working!
     """
-    return {"message": "Hello Heroku!"}
+    return {"message": "Hello, API is working!"}
