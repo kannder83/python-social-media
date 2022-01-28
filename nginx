@@ -4,8 +4,8 @@ server {
 
         server_name _; # replace with specific domain name like sanjeev.com
         
-        location /api/social-media {
-                proxy_pass http://localhost:8000;
+        location /api/social-media/ {
+                proxy_pass http://localhost:8000/;
                 proxy_http_version 1.1;
                 proxy_set_header X-Real-IP $remote_addr;
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
