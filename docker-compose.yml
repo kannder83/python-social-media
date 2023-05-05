@@ -1,12 +1,12 @@
-version: "3"
+version: "3.8"
 
 services:
   api:
-    container_name: fastapi
-    restart: always
     build: 
       context: .
       dockerfile: ./compose/dev/Dockerfile
+    links:
+      - postgres:postgres
     ports:
       - 8000:8000
     volumes:
@@ -16,17 +16,23 @@ services:
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     depends_on:
       - postgres
+    networks:
+      - mynetwork
 
   postgres:
-    container_name: db_postgres
+    hostname: postgres
     image: postgres
-    restart: always
     ports:
       - 5432:5432
     env_file:
       - ./.env
     volumes:
       - postgres-db:/var/lib/postgresql/data
+    networks:
+      - mynetwork
 
 volumes:
   postgres-db:
+
+networks:
+  mynetwork:

@@ -1,10 +1,12 @@
 
+from typing import Dict
 from fastapi import FastAPI, status
 from .routes import user, post, auth, vote
 from fastapi.middleware.cors import CORSMiddleware
 
 
-app: FastAPI = FastAPI(root_path="/api/social-media")
+app = FastAPI()
+
 
 # Configuration CORS:
 
@@ -37,3 +39,8 @@ def root():
     Response if server is up an working!
     """
     return {"message": "Hello, API is working!"}
+
+
+@app.post("/", status_code=201)
+def posting(data: Dict):
+    return {"user": data["username"], "pass": data["password"]}

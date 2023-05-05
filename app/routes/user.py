@@ -5,14 +5,14 @@ from .. import models, schemas, utils
 from ..database import get_db
 
 router = APIRouter(
-    prefix="/users"
+    # prefix="/users",
 )
 
 # For Users:
 
 
 @router.post(
-    path="/",
+    path="/users",
     status_code=status.HTTP_201_CREATED,
     response_model=schemas.UserOut,
     tags=["Users"],
@@ -29,17 +29,16 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     - UserId confirms that user was created well.
     """
     # hash password - user.password
+    print(user)
+    # hash the password - user.password
     hashed_password = utils.hash(user.password)
     user.password = hashed_password
 
     new_user = models.User(**user.dict())
-    try:
-        db.add(new_user)
-        db.commit()
-        db.refresh(new_user)
-    except:
-        raise HTTPException(
-            status_code=status.HTTP_406_NOT_ACCEPTABLE, detail=f"Email already exists.")
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
     return new_user
 
 
